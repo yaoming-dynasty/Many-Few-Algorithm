@@ -19,7 +19,7 @@ The framework's own algorithm is
 {Many & Few}(S) = (S, C(S))
 ```
 
-where `C(S)` is the zone a collection falls into: **few**, **between**, or **many**. The zone is decided by comparing the measure `m(S)` with two adaptive boundaries, `Boundary1` and `Boundary2`, with `Boundary1 <= Boundary2` (see section 4).
+where `C(S)` is the zone a collection falls into: **few**, **between**, or **many**. The zone is decided by comparing the measure `m(S)` with two adaptive boundaries, `Boundary1` and `Boundary2`, [...]
 
 Applied to authorship:
 
@@ -50,7 +50,7 @@ printf '%s\n' \
 
 If the axiom wording changes, the hash changes, so any edit to the axioms is detectable.
 
-**What this certificate is and is not.** It is an attribution written in the framework's own notation, plus an integrity fingerprint of the axioms. It is not a legal instrument and not a cryptographic proof of who wrote the work. For verifiable provenance, also use signed commits (GPG or SSH), a public timestamp of the fingerprint (for example OpenTimestamps), and a `LICENSE` file.
+**What this certificate is and is not.** It is an attribution written in the framework's own notation, plus an integrity fingerprint of the axioms. It is not a legal instrument and not a cryptogra[...]
 
 ---
 
@@ -66,7 +66,7 @@ A3: 0 is always absolute, and every number is finite to it.
 
 ### Working interpretation (not part of the fingerprint)
 
-- **0 is the fixed origin, not a member of the numbers.** A number is whatever lies at a finite distance from 0. This resolves the apparent clash between "every number is finite" and "0 is infinite": 0 is the reference, not one of the measured things.
+- **0 is the fixed origin, not a member of the numbers.** A number is whatever lies at a finite distance from 0. This resolves the apparent clash between "every number is finite" and "0 is infinit[...]
 - **Potential, not actual, infinity.** The process of stepping outward from 0 never completes, so there is no finished totality of all numbers. The unbounded belongs to 0.
 - **"Nothing" (A1) is 0.** Unbounded aggregation returns the absolute.
 - **Finite to 0 has a precise form:** *n is a number if it is reachable from 0 in finitely many steps.*
@@ -134,17 +134,17 @@ Numbers are finite measures taken from 0. Collections of numbers are sorted into
 
 ### Consequences identified so far
 
-- **Shifted-sum problem dissolves.** Re-indexing `n -> n + 1` gives `Sigma(n+1) = Sigma(n) + Sigma(1)`. All three are unbounded sums, so all equal 0, and `0 = 0 + 0` holds. The usual contradiction arises only if `Sigma(1)` is treated as infinite, but here infinite is 0.
+- **Shifted-sum problem dissolves.** Re-indexing `n -> n + 1` gives `Sigma(n+1) = Sigma(n) + Sigma(1)`. All three are unbounded sums, so all equal 0, and `0 = 0 + 0` holds. The usual contradictio[...]
 - **Cost of collapse:** every unbounded sum equals the same value, so the algebra cannot distinguish different unbounded sums.
-- **Tiny symmetry group.** With 0 fixed, the only automorphisms of the additive structure on the integers are the identity and reflection `n -> -n`. The number line is deliberately not translation-invariant.
-- **Division precedent.** Defining `n / 0 = 0` is a convention used in proof assistants such as Lean and Isabelle to make division total, and it is consistent. It fits "0 is infinite potential". Cost: `(a / b) x b = a` fails at `b = 0`.
+- **Tiny symmetry group.** With 0 fixed, the only automorphisms of the additive structure on the integers are the identity and reflection `n -> -n`. The number line is deliberately not translatio[...]
+- **Division precedent.** Defining `n / 0 = 0` is a convention used in proof assistants such as Lean and Isabelle to make division total, and it is consistent. It fits "0 is infinite potential". [...]
 - **Candidate model for consistency.** The integers with ordinary addition for finite sums and `Sigma = 0` for unbounded collections. *To be verified.*
 
 ---
 
 ## 6. Open design choices
 
-- [ ] **Sigma rule.** *Strict:* collapse to 0 only for truly unbounded collections (finite arithmetic stays honest). *Collapse:* collapse to 0 for any collection beyond `Boundary2` (the boundaries do real work, but some finite sums become "wrong" by ordinary arithmetic).
+- [ ] **Sigma rule.** *Strict:* collapse to 0 only for truly unbounded collections (finite arithmetic stays honest). *Collapse:* collapse to 0 for any collection beyond `Boundary2` (the boundarie[...]
 - [ ] **Which numbers.** Integers (assumed), or also fractions and reals?
 - [ ] **Division by 0.** `n / 0 = 0`, or undefined as a category error?
 - [ ] **Which standard laws are kept.** Associativity, commutativity, distributivity.
@@ -194,3 +194,103 @@ Ronio, C. T. (2026). {Many & Few}: a finite framework with 0 as the absolute. Wo
 ## 10. Acknowledgments
 
 Drafting assistance: Claude (Anthropic). The axioms and the framework's central ideas are the author's.
+
+---
+
+## 11. Formalizing the {Many & Few} framework
+
+Research objective: Turn the Relational Boundary Framework into a measurable transformation system, then test whether its classifications produce reliable and reproducible results across different problem domains.
+
+The central principle remains:
+
+$$
+\boxed{\{Many\ \&\ Few\}=\{Boundary_1\}+\{Boundary_2\}}
+$$
+
+Here, $X$ represents the whole portion being examined, and $T(X)$ represents the transformed state or the portion revealed by examining the whole. To make that idea testable, we need to specify exactly what a state contains, how it changes, and what evidence supports each classification.
+
+1. The formal transformation operator
+
+Define a boundary system as
+
+$$
+\mathcal{B}=(S,T,\sim,\mu,C)
+$$
+
+where:
+
+| Symbol | Formal definition | Purpose |
+|---|---|---|
+| $S$ | State space | All permitted configurations of a system |
+| $T:S\\rightarrow S$ | Transformation operator | The rule that changes one state into another |
+| $\sim$ | Observational equivalence | Defines when two states count as the same |
+| $\mu:S\\rightarrow\\mathbb{R}^k$ | Measurement function | Quantifies relevant properties of a state |
+| $C:S\\rightarrow\{0,1\\}$ | Contradiction predicate | Tests a precisely defined inconsistency |
+
+The transformation generates a sequence:
+
+$$
+X_0=X,\\qquad X_{n+1}=T(X_n)
+$$
+
+and therefore
+
+$$
+T^n(X)=
+\\underbrace{T(T(\\cdots T(X)))}_{n\\text{ applications}}
+$$
+
+This separates the conceptual framework from the implementation. The operator $T$ can describe a set transformation, a string-rewriting rule, a numerical recurrence, or a simplified protein-folding step. Each domain has its own state space and measurements, but the analysis interface can remain consistent.
+
+For systems in which a transformation can fail or produce multiple possible next states, we can later extend $T$ to a partial or set-valued operator.
+
+2. Measurable properties of the whole and its transformation
+
+For each state $X_n$, record a measurement vector:
+
+$$
+\\mu(X_n)=
+\\begin{bmatrix}
+ s_n\\\\
+ c_n\\\\
+ r_n
+\\end{bmatrix}
+$$
+
+where the components might represent size $s_n$, complexity $c_n$, and a domain-specific resource or stability measurement $r_n$.
+
+These quantities are examples rather than universal definitions. A set may use cardinality; a string-rewriting system may use string length; a numerical system may use absolute value or distance from a fixed point. A protein toy model may use its explicitly defined energy function.
+
+The change in a measured property is
+
+$$
+\\Delta\\mu_n=\\mu(X_{n+1})-\\mu(X_n)
+$$
+
+This lets the framework test whether a specified property increases, decreases, remains constant, or changes irregularly.
+
+Critical rule: Expansion in one measurement does not imply that the entire system expands in every meaningful sense. Every reported result must identify which property was measured.
+
+3. Operational definitions of the classifications
+
+The classifier should follow a reproducible decision procedure.
+
+Contradiction — $\\bot$
+A specified contradiction predicate is satisfied. For example, a formal logic state contains both $P$ and $\\neg P$. This must be established by the logic or supplied predicate, not merely by observing two different states.
+
+Fixed point — $T(X)\\sim X$
+A state is observationally unchanged after a transformation. Repeatedly observing the same state is evidence of stabilization; for a known deterministic operator, the equality can establish a fixed point.
+
+Cycle — $T^p(X)\\sim X$
+A state repeats after $p>1$ transitions without being classified as an adjacent fixed point. The observed period is $p$.
+
+Expansion
+A chosen scalar measurement increases at each observed transition, with no earlier recurrence detected.
+
+Contraction
+A chosen scalar measurement decreases at each observed transition, with no earlier recurrence detected.
+
+Divergence candidate or unresolved behavior
+No recurrence appears in the observed trace. Consistent growth can support a divergence candidate, but a finite trace alone cannot establish that a system will never stabilize. Irregular or uninformative measurements should remain unresolved.
+
+This refines the initial $F(X)$ proposal without discarding its central classifications. Most importantly, it prevents “not yet stabilized” from being treated as a proof of “never stabilizes.”
