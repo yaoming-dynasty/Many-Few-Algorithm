@@ -1,8 +1,3 @@
-README.md — Full Alignment Framework, One File
-
-Here is the entire README as a single self-contained file. No links to companion documents that don't exist. Everything needed to understand both frameworks, their mathematical equivalence, and their alignment is in this one document.
-
-```markdown
 # Alignment Framework: Z₀ and {Many & Few}
 
 **Two frameworks as charts on a common base space `X`. They align on a
